@@ -30,12 +30,16 @@ async function sprintChallenge5() { // Note the async keyword, in case you wish 
       const learnerId = learner.id
       const email = learner.email      
       
+      // console.log(learnerName, learnerMentorsId)
+
       const cards = document.querySelector(".cards")
       const card = document.createElement("div")
       const nameP = document.createElement("h3")
       const emailP = document.createElement("div")  
       
       card.classList.add("card")
+
+      card.setAttribute("id", learnerId)
       
       cards.appendChild(card)
       card.appendChild(nameP)
@@ -53,7 +57,7 @@ async function sprintChallenge5() { // Note the async keyword, in case you wish 
         // console.log(mentorName)
 
         return mentorName
-      })
+      })      
 
       const mentorP = document.createElement("h4")
       mentorP.classList.add("closed")
@@ -70,8 +74,7 @@ async function sprintChallenge5() { // Note the async keyword, in case you wish 
         mentorList.textContent = `${mentor}`
       }) 
             
-      mentorP.addEventListener("click", evt => {       
-        
+      mentorP.addEventListener("click", evt => { 
         if (mentorP.classList.contains("open")){
           mentorP.classList.remove("open")
           mentorP.classList.add("closed")
@@ -84,24 +87,20 @@ async function sprintChallenge5() { // Note the async keyword, in case you wish 
       document.querySelector(".info").textContent = "No learner is selected"
       
       card.addEventListener("click", evt => {
-        document.querySelectorAll(".card").forEach(card => {
-          card.classList.remove("selected")         
-        })
-        card.classList.add("selected")
-        document.querySelector(".info").textContent = `The selected learner is ${learnerName}`
-        nameP.textContent = `${learnerName}, ID ${learnerId}`
-      })      
-
-      document.addEventListener("click", evt => {
-        if (evt.target === document.querySelector(".card")) {
-          const learners = document.querySelectorAll(".card")
-          learners.forEach(card => card.classList.remove("selected"))
+        if (!card.classList.contains("selected")) {
+          document.querySelectorAll(".card").forEach(currentCard => {
+            currentCard.classList.remove("selected")
+          })
+          card.classList.add("selected")
+          document.querySelector(".info").textContent = `The selected learner is ${learnerName}`
+          nameP.textContent = `${learnerName}, ID ${learnerId}`
+        } else {
+          card.classList.remove("selected")
+          document.querySelector(".info").textContent = "No learner is selected"
           nameP.textContent = `${learnerName}`
-          document.querySelector(".info").textContent = "No learner is selected"          
-        }
-      })
+        }         
+      })      
     })
-
   } catch (error) {
     console.error('Error fetching data:', error)
   }  
